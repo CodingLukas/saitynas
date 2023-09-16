@@ -2,7 +2,7 @@
 
 ## Projekto „Job Board“ ataskaita
 
-Studentas: Lukas Zilinskas, IFF-0/
+Studentas: Lukas Zilinskas, IFF-0/11
 
 Dėstytojai: Baltulionis Simonas
 
@@ -31,6 +31,8 @@ o administratorius valdys visus platformos aspektus, patikrinant skelbimus prie�
 juos viešai.
 
 ### 1.2. Aktoriai
+
+Hierachinis ryšys kategorija<-skelbimas<-komentaras
 
 1. Skelbimas
 2. Kategorija – skelbimui galima priskirti kategoriją
