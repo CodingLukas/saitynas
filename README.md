@@ -49,12 +49,13 @@ Registruotas sistemos naudotojas galės:
 
 1. Atsijungti nuo internetinės aplikacijos.
 2. Pateikti naują skelbimą:
+
     2.1. Užpildyti skelbimo informaciją.
-3. Redaguoti savo skelbimus.
-4. Trinti savo skelbimus.
-5. Peržiūrėti kitų talpintojų skelbimus.
-6. Paieška ir filtravimas pagal kategorijas
-7. Parašyti komentarą skelbime
+4. Redaguoti savo skelbimus.
+5. Trinti savo skelbimus.
+6. Peržiūrėti kitų talpintojų skelbimus.
+7. Paieška ir filtravimas pagal kategorijas
+8. Parašyti komentarą skelbime
 
 Administratorius galės:
 
