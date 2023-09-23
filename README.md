@@ -72,7 +72,7 @@ Administratorius galės:
 ### Sistemos sudedamosios dalys:
 
 - Kliento pusė (ang. Front-End) – naudojant React.js;
-- Serverio pusė (angl. Back-End) – naudojant Typescript su Express.js. Duomenų bazė – Firestore.
+- Serverio pusė (angl. Back-End) – naudojant Express.js. Duomenų bazė – Firestore.
   
 2.1 pav. pavaizduota kuriamos sistemos diegimo diagrama. Sistemos talpinimui naudojamas
 Vercel serveris. Kiekviena sistemos dalis diegiama tame pačiame serveryje. Internetinė
