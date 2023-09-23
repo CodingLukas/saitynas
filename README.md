@@ -72,7 +72,7 @@ Administratorius galės:
 ### Sistemos sudedamosios dalys:
 
 - Kliento pusė (ang. Front-End) – naudojant React.js;
-- Serverio pusė (angl. Back-End) – naudojant Typescript su Next.js. Duomenų bazė – Firestore.
+- Serverio pusė (angl. Back-End) – naudojant Typescript su Express.js. Duomenų bazė – Firestore.
   
 2.1 pav. pavaizduota kuriamos sistemos diegimo diagrama. Sistemos talpinimui naudojamas
 Vercel serveris. Kiekviena sistemos dalis diegiama tame pačiame serveryje. Internetinė
@@ -80,5 +80,5 @@ aplikacija pasiekiama per HTTP protokolą. Sistemos veikimui (pvz., skelbimų ta
 paieškai) reikalingas "Adverts API", kuris pasiekiamas per aplikacijų programavimo sąsają.
 Pats "Adverts API" vykdo duomenų mainus su Firestore duomenų baze.
 
-![ScreenShot 2023-09-16-1g690wET@2x](https://github.com/CodingLukas/saitynas/assets/2143609/8310c69e-1305-4d8d-9c34-6db02e432510)
+![ScreenShot 2023-09-23-A3VSweUb@2x](https://github.com/CodingLukas/saitynas/assets/2143609/61490e60-71a7-40da-bcf5-5178d977ece4)
 2.1 pav. Sistemos Job Boards diegimo diagrama
