@@ -8,9 +8,6 @@ pids
 *.seed
 *.pid.lock
 
-# Admin key
-admin-key.json
-
 # Dependency directories
 node_modules/
 
@@ -27,6 +24,11 @@ build/
 dist/
 out/
 public/build/
-all_output.txt
-README.MD
-run.sh
+
+# IDE files
+.vscode/
+.idea/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db

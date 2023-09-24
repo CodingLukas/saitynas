@@ -7,3 +7,4 @@
 # Ignore prompt and prompt2 files inside the example workspace
 /projects/example/prompt
 /projects/example/prompt2
+/archyvas
