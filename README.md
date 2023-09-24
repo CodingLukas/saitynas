@@ -54,15 +54,13 @@ Registruotas sistemos naudotojas galės:
 4. Redaguoti savo skelbimus.
 5. Trinti savo skelbimus.
 6. Peržiūrėti kitų talpintojų skelbimus.
-7. Paieška ir filtravimas pagal kategorijas
-8. Parašyti komentarą skelbime
+7. Parašyti komentarą skelbime
 
 Administratorius galės:
 
 1. Patvirtinti naujus skelbimus.
 2. Šalinti netinkamus skelbimus.
-3. Šalinti naudotojus
-4. Valdyti kategorijų sąrašą.
+3. Valdyti kategorijų sąrašą.
 
     4.1. Trinti, sukurti, atnaujinti, peržiūrėti kategorijas
 
