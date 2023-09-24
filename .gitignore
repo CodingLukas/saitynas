@@ -1,1 +1,9 @@
-projects/
+# Ignore everything in the projects directory
+/projects/example/archive
+/projects/example/memory
+
+
+
+# Ignore prompt and prompt2 files inside the example workspace
+/projects/example/prompt
+/projects/example/prompt2
