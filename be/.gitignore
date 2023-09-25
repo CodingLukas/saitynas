@@ -32,3 +32,5 @@ public/build/
 # Miscellaneous
 .DS_Store
 Thumbs.db
+
+admin-key.json
