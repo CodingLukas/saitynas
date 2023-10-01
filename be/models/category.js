@@ -7,8 +7,13 @@ class Category {
   }
 
   static async get(id) {
-    const category = await firestore.get('categories', id);
-    return category;
+    try {
+      const category = await firestore.get('categories', id);
+      return category;
+    } catch (error) {
+      console.error('Error getting category:', error);
+      throw error;
+    }
   }
 
   static async create(data) {

@@ -5,27 +5,39 @@ const check = require('../middleware/check');
 
 const router = express.Router();
 
-router.get('/', adController.getAllAds);
-router.get('/:id', check.adExists, adController.getAd);
+router.get(
+  '/categories/:id/ads',
+  check.categoryExistsFromParams,
+  adController.getAllAds
+);
+router.get(
+  '/categories/:id/ads/:adid',
+  check.categoryExistsFromParams,
+  check.adExistsFromParams,
+  adController.getAd
+);
 router.post(
-  '/',
-  auth.user,
-  check.categoryExistsFromBody,
+  '/categories/:id/ads',
+  auth.isValidJWT,
+  check.categoryExistsFromParams,
   adController.createAd
 );
 router.put(
-  '/:id',
-  auth.user,
-  check.adExists,
-  check.categoryExistsFromBody,
-  check.adOwner,
+  '/categories/:id/ads/:adid',
+  auth.isValidJWT,
+  check.categoryExistsFromParams,
+  check.adExistsFromParams,
+  check.adBelongsToCategory,
+  check.adOwnerOrAdmin,
   adController.updateAd
 );
 router.delete(
-  '/:id',
-  auth.user,
-  check.adOwner,
-  check.adExists,
+  '/categories/:id/ads/:adid',
+  auth.isValidJWT,
+  check.categoryExistsFromParams,
+  check.adExistsFromParams,
+  check.adBelongsToCategory,
+  check.adOwnerOrAdmin,
   adController.deleteAd
 );
 

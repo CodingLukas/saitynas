@@ -15,11 +15,18 @@ exports.getAll = async (collection) => {
 };
 
 exports.get = async (collection, id) => {
-  const doc = await db.collection(collection).doc(id).get();
-  if (!doc.exists) {
-    return null;
+  try {
+    const doc = await db.collection(collection).doc(id).get();
+
+    if (!doc.exists) {
+      return null;
+    }
+
+    return { id: doc.id, ...doc.data() };
+  } catch (error) {
+    console.error('Error getting document:', error);
+    throw error;
   }
-  return { id: doc.id, ...doc.data() };
 };
 
 exports.create = async (collection, data) => {

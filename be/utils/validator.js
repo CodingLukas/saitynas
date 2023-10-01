@@ -8,22 +8,37 @@ exports.validateCategory = (data) => {
 };
 
 exports.validateAd = (data) => {
+  let errors = [];
+
   if (!data.title || !validator.isLength(data.title, { min: 1, max: 100 })) {
-    return false;
+    errors.push({
+      field: 'title',
+      message: 'Title must be between 1 and 100 characters long.',
+    });
   }
+
   if (
     !data.description ||
     !validator.isLength(data.description, { min: 1, max: 500 })
   ) {
-    return false;
+    errors.push({
+      field: 'description',
+      message: 'Description must be between 1 and 500 characters long.',
+    });
   }
-  if (!data.price || !validator.isNumeric(data.price)) {
-    return false;
+
+  if (
+    !data.price ||
+    !validator.isNumeric(data.price.toString()) ||
+    data.price <= 0
+  ) {
+    errors.push({
+      field: 'price',
+      message: 'Price must be a positive number.',
+    });
   }
-  if (!data.categoryId || !validator.isLength(data.categoryId, { min: 1 })) {
-    return false;
-  }
-  return true;
+
+  return errors.length > 0 ? errors : null;
 };
 
 exports.validateComment = (data) => {

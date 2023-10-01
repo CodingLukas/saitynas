@@ -1,34 +1,57 @@
+const jwt = require('jsonwebtoken');
 const admin = require('firebase-admin');
+const db = admin.firestore();
 
-exports.admin = async (req, res, next) => {
-  const idToken = req.headers.authorization;
-
+exports.isAdmin = async (req, res, next) => {
   try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const decodedToken = req.decodedToken;
     if (decodedToken.role === 'admin') {
-      req.decodedToken = decodedToken;
       next();
     } else {
       res.status(403).send('Unauthorized');
     }
   } catch (error) {
-    console.log(error);
+    console.log('admin token: ' + error);
     res.status(401).send('Invalid token');
   }
 };
 
-exports.user = async (req, res, next) => {
-  const idToken = req.headers.authorization;
+exports.isValidJWT = async (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(400).json({ error: 'token is required' });
+  }
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    if (decodedToken) {
-      req.decodedToken = decodedToken;
-      next();
-    } else {
-      res.status(403).send('Unauthorized');
+    // verifies exp date
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    if (decoded.iss !== process.env.JWT_ISSUER) {
+      return res.status(401).json({ error: 'Invalid issuer' });
     }
+
+    if (decoded.aud !== process.env.JWT_AUDIENCE) {
+      return res.status(401).json({ error: 'Invalid audience' });
+    }
+
+    const userSnapshot = await db.collection('users').doc(decoded.userId).get();
+
+    if (!userSnapshot.exists) {
+      return res.status(401).send('Invalid token for snapshot');
+    }
+
+    const user = userSnapshot.data();
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    req.decodedToken = decoded;
+    next();
   } catch (error) {
-    res.status(401).send('Invalid token');
+    console.error('Error validating token:', error);
+
+    return res.status(401).json({ error: 'Invalid token' });
   }
 };

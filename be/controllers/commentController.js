@@ -22,7 +22,7 @@ exports.createComment = async (req, res) => {
   }
   const comment = await Comment.create({
     ...data,
-    userId: req.decodedToken.uid,
+    userId: req.decodedToken.userId,
   });
   res.status(201).json(comment);
 };

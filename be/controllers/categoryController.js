@@ -1,3 +1,4 @@
+const Ad = require('../models/ad');
 const Category = require('../models/category');
 const validator = require('../utils/validator');
 
@@ -39,9 +40,23 @@ exports.updateCategory = async (req, res) => {
 
 exports.deleteCategory = async (req, res) => {
   const id = req.params.id;
-  const category = await Category.delete(id);
+  let category = await Category.get(id);
   if (!category) {
     return res.status(404).json({ error: 'Category not found' });
   }
+
+  const ads = await Ad.getAllByCategoryId(id);
+  if (ads.length > 0) {
+    // console.log(
+    //   'ids ',
+    //   ads.map((ad) => ad.id)
+    // );
+    return res
+      .status(409)
+      .json({ error: 'Category cannot be deleted until its ads are removed' });
+  }
+
+  await Category.delete(id);
+
   res.json({ message: 'Category deleted' });
 };

@@ -34,3 +34,5 @@ public/build/
 Thumbs.db
 
 admin-key.json
+.env
+node_modules

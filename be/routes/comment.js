@@ -9,11 +9,11 @@ router.get('/', commentController.getAllComments); // get by ad id
 router.get('/:id', commentController.getComment);
 router.post(
   '/',
-  auth.user,
-  check.adExistsFromBody,
+  auth.isValidJWT,
+  check.adExistsFromParams,
   commentController.createComment
 );
-router.put('/:id', auth.user, commentController.updateComment);
-router.delete('/:id', auth.user, commentController.deleteComment);
+router.put('/:id', auth.isValidJWT, commentController.updateComment);
+router.delete('/:id', auth.isValidJWT, commentController.deleteComment);
 
 module.exports = router;
