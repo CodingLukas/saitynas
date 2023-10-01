@@ -21,9 +21,9 @@ class Ad {
   static async get(adId) {
     const ad = await firestore.get('ads', adId);
 
-    const commentsRef = db.collection('comments');
-    const query = commentsRef.where('adId', '==', ad.id);
-    const snapshot = await query.get();
+    // const commentsRef = db.collection('comments');
+    // const query = commentsRef.where('adId', '==', ad.id);
+    // const snapshot = await query.get();
     // const comments = [];
 
     // snapshot.forEach((doc) => {

@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 
 app.use('/categories', categoryRoutes);
 app.use('/', adRoutes);
-app.use('/comment', commentRoutes);
+app.use('/categories/:id/ads/:adid/comments', commentRoutes);
 
 const registerRoute = require('./routes/register');
 const loginRoute = require('./routes/login');

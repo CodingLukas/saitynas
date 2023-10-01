@@ -15,12 +15,32 @@ exports.adExistsFromParams = async (req, res, next) => {
   }
 };
 
+exports.commentExistsFromParams = async (req, res, next) => {
+  const commentRef = db.collection('comments').doc(req.params.cid);
+  // console.log(req.params.cid);
+  const doc = await commentRef.get();
+  // console.log(doc);
+  if (!doc.exists) {
+    return res.status(404).send('comment not found from params');
+  } else {
+    req.comment = doc;
+    next();
+  }
+};
+
 exports.adBelongsToCategory = async (req, res, next) => {
   // console.log(req.ad.data().categoryId, req.params.id);
   if (req.ad.data().categoryId != req.params.id) {
     return res.status(404).send('ad does not belong to this category');
   }
 
+  next();
+};
+
+exports.commentBelongsToAd = async (req, res, next) => {
+  if (req.ad.id != req.comment.data().adId) {
+    return res.status(404).send('comment does not belong to this ad');
+  }
   next();
 };
 
@@ -67,7 +87,7 @@ exports.adOwnerOrAdmin = async (req, res, next) => {
 exports.commentOwnerOrAdmin = async (req, res, next) => {
   const decodedToken = req.decodedToken;
   if (decodedToken) {
-    const commentRef = db.collection('comments').doc(req.params.id);
+    const commentRef = db.collection('comments').doc(req.params.cid);
     const doc = await commentRef.get();
     if (!doc.exists) {
       res.status(404).send('comment not found');

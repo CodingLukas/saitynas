@@ -52,21 +52,18 @@ exports.updateAd = async (req, res) => {
 };
 
 exports.deleteAd = async (req, res) => {
-  const ads = await Comment.getAllByCategoryId(id);
-  if (ads.length > 0) {
+  const comments = await Comment.getAllByAdId(req.params.adid);
+  if (comments.length > 0) {
     // console.log(
     //   'ids ',
     //   ads.map((ad) => ad.id)
     // );
     return res
       .status(409)
-      .json({ error: 'Category cannot be deleted until its ads are removed' });
+      .json({ error: 'Ad cannot be deleted until its comments are removed' });
   }
 
-  const ad = req.ad;
+  await Ad.delete(req.params.adid);
 
-  if (!ad) {
-    return res.status(404).json({ error: 'Ad not found ' });
-  }
   res.json({ message: 'Ad deleted' });
 };

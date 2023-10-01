@@ -1,6 +1,22 @@
 const firestore = require('../utils/firestore');
+const admin = require('firebase-admin');
 
+const db = admin.firestore();
 class Comment {
+  static async getAllByAdId(adId) {
+    // Adjusted to get all comments by category ID
+    const commentsCollection = db.collection('comments');
+    const query = commentsCollection.where('adId', '==', adId);
+    const querySnapshot = await query.get();
+
+    const comments = [];
+    querySnapshot.forEach((doc) => {
+      comments.push({ id: doc.id, ...doc.data() });
+    });
+
+    return comments;
+  }
+
   static async getAll() {
     const comments = await firestore.getAll('comments');
     return comments;
