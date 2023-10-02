@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const categoryRoutes = require('./routes/category');
 const adRoutes = require('./routes/ad');
 const commentRoutes = require('./routes/comment');
 const listEndpoints = require('express-list-endpoints');
-require('dotenv').config();
 
 const app = express();
 

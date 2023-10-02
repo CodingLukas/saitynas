@@ -1,9 +1,18 @@
 const admin = require('firebase-admin');
 
-const serviceAccount = require('../admin-key.json');
+// const serviceAccount = require('../admin-key.json');
+// const encodedCredentials = Buffer.from(JSON.stringify(serviceAccount)).toString(
+//   'base64'
+// );
+// console.log(encodedCredentials);
+const encodedCredentials2 = process.env.ENCODED_CREDENTIALS;
+const decodedCredentials = JSON.parse(
+  Buffer.from(encodedCredentials2, 'base64').toString('utf8')
+);
 
+// console.log(decodedCredentials);
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(decodedCredentials),
 });
 
 const db = admin.firestore();
