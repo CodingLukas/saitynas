@@ -5,7 +5,7 @@ const checkDuplicateEmail = async (req, res, next) => {
   const email = req.body.email;
 
   if (!email) {
-    return res.status(400).json({ error: 'Email is required' });
+    return res.status(422).json({ error: 'Email is required' });
   }
 
   try {
@@ -15,7 +15,7 @@ const checkDuplicateEmail = async (req, res, next) => {
       .get();
 
     if (!usersSnapshot.empty) {
-      return res.status(400).json({ error: 'Email already in use' });
+      return res.status(422).json({ error: 'Email already in use' });
     }
 
     next();

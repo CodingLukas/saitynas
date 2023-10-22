@@ -4,12 +4,12 @@ const validateRegisterFields = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !validator.isEmail(email)) {
-    return res.status(400).json({ error: 'A valid email is required' });
+    return res.status(422).json({ error: 'A valid email is required' });
   }
 
   if (!password || password.trim().length < 6) {
     return res
-      .status(400)
+      .status(422)
       .json({ error: 'Password should be at least 6 characters long' });
   }
 
@@ -20,11 +20,11 @@ const validateLoginFields = (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !validator.isEmail(email)) {
-    return res.status(400).json({ error: 'A valid email is required' });
+    return res.status(422).json({ error: 'A valid email is required' });
   }
 
   if (!password) {
-    return res.status(400).json({ error: 'Password is required' });
+    return res.status(422).json({ error: 'Password is required' });
   }
 
   next();

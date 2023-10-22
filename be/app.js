@@ -34,6 +34,18 @@ app.use('/refresh', refreshRoute);
 
 // console.log(listEndpoints(app));
 
+app.all('*', (req, res, next) => {
+  // Create a new error object
+  const err = new Error(`Can't find ${req.originalUrl} on this server!`);
+  err.status = 404; // Set a custom HTTP status
+  next(err); // Pass the error object to the next middleware function
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 app.listen(3000, () => console.log('Server is running on port 3000'));
 
 module.exports = app;
