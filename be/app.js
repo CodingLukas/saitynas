@@ -7,6 +7,14 @@ const commentRoutes = require('./routes/comment');
 const listEndpoints = require('express-list-endpoints');
 
 const app = express();
+const cors = require('cors');
+
+const corsOptions = {
+  origin: '*', // or '*' for all origins
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 
