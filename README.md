@@ -26,7 +26,7 @@ Veikimo principas – platformą sudaro dvi dalys: internetinė aplikacija, kuri
 skelbimų talpintojai, vartotojai, administratorius, bei aplikacijų programavimo sąsaja (API).
 
 Talpintojas, norėdamas pateikti skelbimą, užsiregistruos platformoje, įkels skelbimo
-informaciją, ir kontaktinius duomenis. Vartotojai galės peržiūrėti, filtruoti ir ieškoti skelbimų,
+informaciją, ir kontaktinius duomenis. Vartotojai galės peržiūrėti ir ieškoti skelbimų,
 o administratorius valdys visus platformos aspektus, patikrinant skelbimus prieš patalpinant
 juos viešai.
 
