@@ -1,0 +1,123 @@
+@@include("./partials/main.html")
+    <head>
+        @@include("./partials/title-meta.html", {"title": "index-1"})
+
+
+        @@include('./partials/head-css.html')
+
+    </head>
+
+    @@include('./partials/body.html')
+
+    @@include('./partials/switcher.html')
+
+
+        <div class="main-content">
+            <div class="page-content">
+
+                <section class="flex items-center justify-center min-h-screen py-10 group-data-[theme-color=violet]:bg-violet-500/10 group-data-[theme-color=sky]:bg-sky-500/10 group-data-[theme-color=red]:bg-red-500/10 group-data-[theme-color=green]:bg-green-500/10 group-data-[theme-color=pink]:bg-pink-500/10 group-data-[theme-color=blue]:bg-blue-500/10 dark:bg-neutral-700">
+                    <div class="container mx-auto">
+                        <div class="grid grid-cols-12">
+                            <div class="col-span-12 lg:col-span-10 lg:col-start-2">
+                                <div class="flex flex-col bg-white rounded-lg dark:bg-neutral-800">
+                                    <div class="grid flex-col grid-cols-12">
+                                        <div class="col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
+                                            <div class="p-10">
+                                                <div class="mt-5">
+                                                    <img src="assets/images/auth/sign-up.png" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 rounded-b-md lg:col-span-6 group-data-[theme-color=violet]:bg-violet-700 group-data-[theme-color=sky]:bg-sky-700 group-data-[theme-color=red]:bg-red-700 group-data-[theme-color=green]:bg-green-700 group-data-[theme-color=pink]:bg-pink-700 group-data-[theme-color=blue]:bg-blue-700 lg:rounded-b-none lg:ltr:rounded-r-lg rtl:rounded-l-lg">
+                                            <div class="flex flex-col justify-center h-full p-12">
+
+                                                <form id="register" class="mt-8">
+
+                                                    <div class="mb-5">
+                                                        <label for="passwordInput" class="text-white">Email</label>
+                                                        <input type="email" id="email" class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white" required="" id="emailInput" placeholder="Enter your email">
+                                                    </div>
+                                                    <div class="mb-5">
+                                                        <label for="emailInput" class="text-white">Password</label>
+                                                        <input type="password" id="password" class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white" id="passwordInput" placeholder="Enter your password">
+                                                    </div>
+
+                                                    <div class="my-5 text-center">
+                                                        <button id="button" type="submit" class="btn w-full bg-white text-gray-900 font-medium border-transparent hover:-translate-y-1.5 duration-500 ease">Login
+                                                    </button></div>
+                                                </form>
+                                                <p id="message"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+
+
+    @@include('./partials/vendor-scripts.html')
+
+    <script src="assets/js/pages/switcher.js"></script>
+
+    <script src="assets/js/app.js"></script>
+
+ <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+
+  ></script>
+   <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.4/js.cookie.min.js"
+  ></script>
+   <script>
+        $(document).ready(function() {
+            $('#register').submit(function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                var formData = {
+                    email: $('#email').val(),
+                    password: $('#password').val()
+                };
+                console.log(formData);
+
+                $.ajax({
+                url: `http://localhost:3000/login`,
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function(res) {
+                    console.log(res);
+                    Cookies.set('auth', res.token);
+                    window.location.href = 'index.html';
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Check if the server response is in JSON format
+                    var message = "An error occurred";
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+                        // If JSON, use the error message from the response
+                        message = jqXHR.responseJSON.error;
+                    } else if (textStatus) {
+                        // Use the textStatus if no detailed error message is available
+                        message = textStatus;
+                    }
+                    message = jqXHR.responseText;
+                    // Append the error message to your page
+                    $('#message').text(message); // Using .text() for security reasons
+                }
+                });
+            });
+
+
+        });
+    </script>
+
+</body>
+</html>

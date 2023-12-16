@@ -1,0 +1,145 @@
+@@include("./partials/main.html")
+    <head>
+        @@include("./partials/title-meta.html", {"title": "index-1"})
+
+        @@include('./partials/head-css.html')
+
+    </head>
+
+    @@include('./partials/body.html')
+
+
+        @@include('./partials/topbar.html')
+
+        @@include('./partials/navbar.html')
+
+        @@include('./partials/switcher.html')
+
+        <div class="main-content">
+            <div class="page-content">
+
+                <section class="pt-28 lg:pt-44 pb-28 group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 dark:bg-neutral-900 bg-[url('../images/home/page-title.png')] bg-center bg-cover relative" >
+                    <div class="container mx-auto">
+                        <div class="grid">
+                            <div class="col-span-12">
+                                <div class="text-center text-white">
+                                    <h3 class="mb-4 text-[26px]">Create Comment</h3>
+                                    <div class="page-next">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                    <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+                </section>
+
+                <!-- Start grid -->
+                    <section class="py-20">
+                        <div class="container mx-auto">
+
+                            <div class="grid grid-cols-12 gap-y-5 md:gap-8">
+                                <div class="col-span-12 ">
+                                    <div class="mt-10 rounded bg-gray-50 dark:bg-neutral-700">
+                                        <div class="p-6">
+                                            <ul class="space-y-4 flex justify-center" id="categoriesList">
+<div class="w-full max-w-xs">
+  <form id="create" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+        Comment
+      </label>
+      <input required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name">
+    </div>
+    <div class="flex items-center justify-between">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+        Save
+      </button>
+
+    </div>
+  </form>
+
+</div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </section>
+                <!-- End grid -->
+
+                <!-- start cta -->
+
+                <!-- end cta -->
+
+            </div>
+        </div>
+
+
+        @@include('./partials/footer.html')
+
+    @@include('./partials/vendor-scripts.html')
+
+     <script src="assets/js/pages/switcher.js"></script>
+
+    <script src="assets/js/pages/dropdown&modal.init.js"></script>
+
+    <script src="assets/js/pages/nav&tabs.js"></script>
+
+    <script src="assets/js/app.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+></script>
+    <script>
+        $(document).ready(function() {
+                        const urlParams = new URLSearchParams(window.location.search);
+const catId = urlParams.get('categoryId');
+const adId = urlParams.get('adId');
+            $('#create').submit(function(event) {
+                // Prevent default form submission
+                event.preventDefault();
+
+                var formData = {
+                    text: $('#name').val(),
+                };
+                console.log(formData);
+
+                $.ajax({
+                url: `http://localhost:3000/categories/${catId}/ads/${adId}/comments`,
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                 headers: {
+          Authorization: ' ' + window.token,
+        },
+                success: function(res) {
+                                        window.location.href = 'job-details.html?categoryId='+catId+'&adId='+adId;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Check if the server response is in JSON format
+                    var message = "An error occurred";
+                    if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+                        // If JSON, use the error message from the response
+                        message = jqXHR.responseJSON.error;
+                    } else if (textStatus) {
+                        // Use the textStatus if no detailed error message is available
+                        message = textStatus;
+                    }
+                    message = jqXHR.responseText;
+                    // Append the error message to your page
+                    $('#message').text(message); // Using .text() for security reasons
+                }
+                });
+            });
+
+
+        });
+    </script>
+
+</body>
+</html>

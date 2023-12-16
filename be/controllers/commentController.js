@@ -29,7 +29,9 @@ exports.createComment = async (req, res) => {
     ...data,
     userId: req.decodedToken.userId,
     adId: req.params.adid,
+    email: req.decodedToken.email,
   });
+
   res.status(201).json(comment);
 };
 

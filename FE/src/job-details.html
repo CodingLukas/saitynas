@@ -1,0 +1,220 @@
+@@include("./partials/main.html")
+    <head>
+        @@include("./partials/title-meta.html", {"title": "index-1"})
+
+        @@include('./partials/head-css.html')
+
+    </head>
+
+    @@include('./partials/body.html')
+
+
+        @@include('./partials/topbar.html')
+
+        @@include('./partials/navbar.html')
+
+        @@include('./partials/switcher.html')
+
+        <div class="main-content">
+            <div class="page-content">
+
+                <section class="pt-28 lg:pt-44 pb-28 group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 dark:bg-neutral-900 bg-[url('../images/home/page-title.png')] bg-center bg-cover relative" >
+                    <div class="container mx-auto">
+                        <div class="grid">
+                            <div class="col-span-12">
+                                <div class="text-center text-white">
+                                    <h3 class="mb-4 text-[26px]">Ad Details</h3>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                    <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+                </section>
+
+                <!-- Start grid -->
+                    <section class="py-16">
+                        <div class="container mx-auto">
+                            <div class="grid grid-cols-12 gap-y-10 lg:gap-10">
+                                <div class="col-span-12 lg:col-span-8">
+                                    <div class="border rounded-md border-gray-100/30 dark:border-neutral-600/80">
+                                        <div class="relative">
+                                            <img src="assets/images/job-detail.jpg" alt="" class="rounded-md img-fluid mb-7">
+
+                                        </div>
+                                        <div class="p-6">
+                                            <div class="grid grid-cols-12">
+                                                <div class="col-span-12 lg:col-span-8">
+                                                    <div class="relative">
+                                                        <h5 class="mb-1 text-gray-900 dark:text-gray-50" id="adtitle"></h5>
+                                                        <ul class="flex gap-4 text-gray-500 dark:text-gray-300">
+
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-span-12 lg:col-span-4">
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="mt-5">
+                                                <h5 class="mb-3 text-gray-900 dark:text-gray-50">Description</h5>
+                                                <div>
+                                                    <p class="mb-0 text-gray-500 dark:text-gray-300" id="description"></p>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-5">
+                                                <h5 class="mb-3 text-gray-900 dark:text-gray-50">Price</h5>
+                                                <div>
+                                                    <p class="mb-0 text-gray-500 dark:text-gray-300" id="price"></p>
+                                                </div>
+                                            </div>
+
+                                             <div class="mt-5">
+
+                                                <h5 class="mb-3 text-gray-900 dark:text-gray-50">Comments
+<a id="create-comment" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                                            Create comment
+                                                        </a>
+
+                                                </h5>
+                                                <div id="comments">
+
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                <!-- End grid -->
+
+            </div>
+        </div>
+
+
+        @@include('./partials/footer.html')
+
+    @@include('./partials/vendor-scripts.html')
+
+        <script src="assets/js/pages/switcher.js"></script>
+
+    <script src="assets/js/pages/dropdown&modal.init.js"></script>
+
+    <script src="assets/js/pages/nav&tabs.js"></script>
+
+    <script src="assets/js/app.js"></script>
+<script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+
+  ></script>
+   <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+const catId = urlParams.get('categoryId');
+const adId = urlParams.get('adId');
+
+            $('#create-comment').prop("href", `create-comment.html?categoryId=${catId}&adId=${adId}`);
+
+            $.ajax({
+                url: `http://localhost:3000/categories/${catId}/ads/${adId}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(ad) {
+                   $('#adtitle').append(`${ad.title}`);
+                   $('#description').append(`${ad.description}`);
+                   $('#price').append(`${ad.price} EUR`);
+                },
+                error: function() {
+                    $('#job-list').append('<li>Error loading categories</li>');
+                }
+            });
+
+            $.ajax({
+                url: `http://localhost:3000/categories/${catId}/ads/${adId}/comments`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(comments) {
+                   $.each(comments, function(index, comment) {
+                        const canModerate = comment.email == window.email || window.isAdmin;
+
+                        $('#comments').append(`<div id="comment-${comment.id}">
+                                                        <p class="mt-5 mb-0 text-gray-500 dark:text-gray-300" >${comment.email || 'test@gmail.com'} wrote:</p>
+
+
+                                                    </div>`);
+
+                                                    //
+                        if (canModerate) {
+                            $('#comment-' + comment.id).append(`   <textarea id="comment-text-${comment.id}" class="mb-0 text-gray-500 dark:text-gray-300" >${comment.text}</textarea>   `);
+                            $('#comment-' + comment.id).append(`  <button id="comment-delete-${comment.id}" >Delete</button>   `);
+
+                            $(`#comment-delete-${comment.id}`).on('click', function() {
+                                // alert('hi');
+                                    $.ajax({
+                                        url: `http://localhost:3000/categories/${catId}/ads/${adId}/comments/${comment.id}`,
+                                        type: 'DELETE',
+                                        dataType: 'json',
+                                        contentType: 'application/json',
+                                        headers: {
+                                                'Authorization': ' ' + window.token
+                                        },
+                                        success: function(res) {
+                                            // alert('Comment deleted');
+                                            location.reload();
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.log('Error updating comment', jqXHR, textStatus, errorThrown);
+                                        }
+                                    });
+                            });
+
+                        $(`#comment-text-${comment.id}`).on('blur', function() {
+                            var formData = {
+                                            text: $(`#comment-text-${comment.id}`).val(),
+                                        };
+
+                                $.ajax({
+                                        url: `http://localhost:3000/categories/${catId}/ads/${adId}/comments/${comment.id}`,
+                                        type: 'PUT',
+                                        dataType: 'json',
+                                        data: JSON.stringify(formData),
+                                        contentType: 'application/json',
+                                        headers: {
+                                                'Authorization': ' ' + window.token
+                                        },
+                                        success: function(res) {
+                                            alert('Comment updated');
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            console.log('Error updating comment', jqXHR, textStatus, errorThrown);
+                                        }
+                                        });
+
+                            });
+
+                        } else {
+$('#comment-' + comment.id).append(`   <p id="comment-text-${comment.id}" class="mb-0 text-gray-500 dark:text-gray-300" >${comment.text}</p>   `);
+                        }
+                    });
+                },
+                error: function() {
+                    $('#job-list').append('<li>Error loading categories</li>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

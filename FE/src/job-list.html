@@ -1,0 +1,192 @@
+@@include("./partials/main.html")
+    <head>
+        @@include("./partials/title-meta.html", {"title": "index-1"})
+
+        <link rel="stylesheet" href="assets/libs/choices.js/public/assets/styles/choices.min.css">
+
+        <!-- Nouislider Css -->
+        <link rel="stylesheet" href="assets/libs/nouislider/nouislider.min.css">
+
+        @@include('./partials/head-css.html')
+
+    </head>
+
+    @@include('./partials/body.html')
+
+
+        @@include('./partials/topbar.html')
+
+        @@include('./partials/navbar.html')
+
+        @@include('./partials/switcher.html')
+
+        <div class="main-content">
+            <div class="page-content">
+
+                <section class="pt-28 lg:pt-44 pb-28 group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 dark:bg-neutral-900 bg-[url('../images/home/page-title.png')] bg-center bg-cover relative" >
+                    <div class="container mx-auto">
+                        <div class="grid">
+                            <div class="col-span-12">
+                                <div class="text-center text-white">
+                                    <h3 class="mb-4 text-[26px]">Ad List</h3>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                    <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+                </section>
+
+                <!-- Start team -->
+                    <section class="py-16">
+                        <div class="container mx-auto">
+                            <a id="create-ad" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                                            Create ad
+                                                        </a>
+                            <div class="grid grid-cols-12 gap-y-10 lg:gap-10">
+
+                                <div class="col-span-12 xl:col-span-9" id="job-list">
+
+
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                <!-- End team -->
+
+
+
+            </div>
+        </div>
+
+
+        @@include('./partials/footer.html')
+
+    @@include('./partials/vendor-scripts.html')
+
+
+    <script src="assets/js/pages/switcher.js"></script>
+
+     <script src="assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+
+     <script src="assets/js/pages/job-list.init.js"></script>
+
+    <script src="assets/js/pages/dropdown&modal.init.js"></script>
+
+    <!-- Nouislider Js -->
+        <script src="assets/libs/nouislider/nouislider.min.js"></script>
+
+        <script src="assets/js/pages/area-filter-range.init.js"></script>
+
+    <script src="assets/js/pages/nav&tabs.js"></script>
+
+    <script src="assets/js/app.js"></script>
+ <script
+    src="https://code.jquery.com/jquery-3.7.1.min.js"
+
+  ></script>
+   <script>
+        $(document).ready(function() {
+
+            const urlParams = new URLSearchParams(window.location.search);
+const catId = urlParams.get('categoryId');
+
+            $('#create-ad').prop("href", `create-ad.html?categoryId=${catId}`);
+
+
+
+            $.ajax({
+                url: `http://localhost:3000/categories/${catId}/ads`,
+                type: 'GET',
+                dataType: 'json',
+                success: function(ads) {
+                    $.each(ads, function(index, ad) {
+                        $('#job-list').append(` <div class="mt-14">
+                                        <div class="relative mt-4 overflow-hidden transition-all duration-500 ease-in-out bg-white border rounded-md border-gray-100/50 group/job group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:-translate-y-2 dark:bg-neutral-900 dark:border-neutral-600">
+
+                                            <div class="p-4">
+                                                <div class="grid items-center grid-cols-12" id="grid-${ad.id}">
+
+                                                    <!--end col-->
+                                                    <div class="col-span-12 lg:col-span-3">
+                                                        <div class="mb-2 mb-md-0">
+                                                            <h5 class="mb-1 fs-18"><a href="job-details.html?categoryId=${catId}&adId=${ad.id}" class="text-gray-900 dark:text-gray-50">${ad.title}</a>
+                                                            </h5>
+                                                        </div>
+                                                    </div>
+                                                    <!--end col-->
+                                                    <div class="col-span-12 lg:col-span-3">
+                                                        <div class="mb-2 lg:flex">
+                                                            <div class="flex-shrink-0">
+                                                                <i class="mr-1 mdi mdi-map-marker group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500"></i>
+                                                            </div>
+                                                            <p class="mb-0 text-gray-500 dark:text-gray-300">${ad.price} EUR</p>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <!--end col-->
+
+                                                    <!--end col-->
+
+                                                    <!--end col-->
+                                                </div>
+                                                <!--end row-->
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>`);
+
+
+const canModerate = ad.userId == window.userId || window.isAdmin;
+
+                                    if(canModerate) {
+                                        $('#grid-'+ad.id).append(` <div><button class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                                                            <a href="edit-ad.html?categoryId=${catId}&adId=${ad.id}"> Edit </a>
+                                                        </button></div>
+                                                       <div> <button id="category-${ad.id}-delete" class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded">
+                                                            Delete
+                                                        </button></div>`);
+
+                                                          $(`#category-${ad.id}-delete`).on('click',function() {
+                                                        $.ajax({
+                                        url: `http://localhost:3000/categories/${catId}/ads/${ad.id}`,
+                                        type: 'DELETE',
+                                        dataType: 'json',
+                                        contentType: 'application/json',
+                                        headers: {
+                                                'Authorization': ' ' + window.token
+                                        },
+                                        success: function(res) {
+                                            // alert('Comment deleted');
+                                            location.reload();
+                                        },
+                                        error: function(jqXHR, textStatus, errorThrown) {
+                                            alert('Error deleting category, delete children first!')
+                                            console.log('Error updating comment', jqXHR, textStatus, errorThrown);
+                                        }
+                                    });
+                                                    });
+                                    }
+                    });
+
+
+
+                },
+                error: function() {
+                    $('#job-list').append('<li>Error loading categories</li>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
