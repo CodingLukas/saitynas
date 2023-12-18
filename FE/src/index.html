@@ -38,13 +38,12 @@
                 <!-- Start grid -->
                     <section class="py-20">
                         <div class="container mx-auto">
-
+                  <a id="create-category2" href="create-category.html" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded hidden">
+                                               Create category         </a>
                             <div class="grid grid-cols-12 gap-y-5 md:gap-8">
                                 <div class="col-span-12 ">
                                     <div class="mt-10 rounded bg-gray-50 dark:bg-neutral-700">
-                                         <a href="create-category.html" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
-                                                            Create category
-                                                        </a>
+
                                         <div class="p-6">
                                             <ul class="space-y-4" id="categoriesList">
 
@@ -83,6 +82,8 @@
 ></script>
         <script>
         $(document).ready(function() {
+            if(window.isAdmin) $('#create-category2').removeClass('hidden');
+
             $.ajax({
                 url: 'http://localhost:3000/categories',
                 type: 'GET',
